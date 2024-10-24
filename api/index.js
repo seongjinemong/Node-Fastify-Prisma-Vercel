@@ -4,6 +4,11 @@ const app = Fastify({
   logger: true,
 });
 
+// * Add plugins for cors
+app.register(import("@fastify/cors"), {
+  origin: ["http://localhost", "https://timetable.seongjinemong.app"],
+});
+
 // * Add plugins for request or response
 //app.register(import("./plugins/greeting.js"));
 

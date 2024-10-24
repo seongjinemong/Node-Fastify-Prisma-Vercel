@@ -12,7 +12,7 @@ export default async function (app) {
 
   // * Login
   app.post("/login", async (req, res) => {
-    const { credential, client_id } = request.body;
+    const { credential, client_id } = req.body;
 
     try {
       // verify id token

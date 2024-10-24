@@ -4,7 +4,7 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-// * If there's schema change, run `npx prisma migrate dev` && `npx prisma db push`
+// * If there's schema change, run `npx prisma migrate dev` && `npx prisma generate`
 // * To use prisma and supabase together, add `pgbouncer=true&connection_limit=1` to the url
 
 generator client {
@@ -19,12 +19,10 @@ datasource db {
 
 // Session Model
 model Session {
-  id        BigInt   @id @default(autoincrement()) @db.BigInt
+  id        String   @id
   sid       String   @unique
-  expires   DateTime
-  data      Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  data      String
+  expiresAt DateTime
 
   @@map("sessions")
 }

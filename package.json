@@ -10,9 +10,9 @@
   "dependencies": {
     "@fastify/cookie": "^11.0.1",
     "@fastify/cors": "^10.0.1",
-    "@mgcrea/fastify-session": "^2.4.1",
-    "@mgcrea/fastify-session-prisma-store": "^1.3.0",
+    "@fastify/session": "^11.0.1",
     "@prisma/client": "5.21.1",
+    "@quixo3/prisma-session-store": "^3.1.13",
     "fastify": "^5.0.0",
     "fastify-plugin": "^5.0.1",
     "google-auth-library": "^9.14.2"

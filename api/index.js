@@ -1,9 +1,8 @@
 import Fastify from "fastify";
 import fasifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
-//import fastifySession from "@fastify/session";
-import PrismaStore from "@mgcrea/fastify-session-prisma-store";
-import fastifySession from "@mgcrea/fastify-session";
+import fastifySession from "@fastify/session";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import prisma from "./lib/db.js";
 
 const app = Fastify({
@@ -34,7 +33,11 @@ app.register(fastifyCookie);
 
 // * Add plugins for session
 app.register(fastifySession, {
-  store: new PrismaStore({ prisma }),
+  store: new PrismaSessionStore(prisma, {
+    checkPeriod: 2 * 60 * 1000, //ms
+    dbRecordIdIsSessionId: true,
+    dbRecordIdFunction: undefined,
+  }),
   secret: process.env.SESSION_SECRET,
   cookieName: "sessionId",
   saveUninitialized: false,

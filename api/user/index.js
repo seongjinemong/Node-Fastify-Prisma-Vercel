@@ -29,26 +29,26 @@ export default async function (app) {
     // find user
     let user;
     try {
-      console.log("Attempting to find user...");
+      //console.log("Attempting to find user...");
       user = await prisma.user.findFirst({
         where: { email: ticket.getPayload().email },
       });
-      console.log("User found:", user);
+      //console.log("User found:", user);
     } catch (error) {
-      console.error("Error finding user:", error);
+      //console.error("Error finding user:", error);
       return res.status(500).type("json").send("Internal Server Error");
     }
 
     // if not found, create user
     if (!user) {
       try {
-        console.log("Creating new user...");
+        //console.log("Creating new user...");
         user = await prisma.user.create({
           data: { email: ticket.getPayload().email },
         });
-        console.log("New user created:", user);
+        //console.log("New user created:", user);
       } catch (error) {
-        console.error("Error creating user:", error);
+        //console.error("Error creating user:", error);
         return res.status(500).type("json").send("Internal Server Error");
       }
     }
@@ -85,7 +85,7 @@ export default async function (app) {
       return res
         .status(401)
         .type("json")
-        .send("Not registered, please let me know");
+        .send("Not registered, please let manager know");
     }
 
     // return user profile

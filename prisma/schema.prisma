@@ -4,35 +4,50 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// * If there's schema change, run `npx prisma migrate dev` && `npx prisma db push`
+// * To use prisma and supabase together, add `pgbouncer=true&connection_limit=1` to the url
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+// Session Model
+model Session {
+  id        BigInt   @id @default(autoincrement()) @db.BigInt
+  sid       String   @unique
+  expires   DateTime
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
 }
 
 // User Model
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  summary String?
-  groups Group[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  summary   String?
+  groups    Group[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   friends User[] @relation("UserFriends")
-  User User[] @relation("UserFriends")
+  User    User[] @relation("UserFriends")
 
   Calendar Calendar[]
 }
 
 // Group Model
 model Group {
-  id Int @id @default(autoincrement())
-  name String
+  id        Int      @id @default(autoincrement())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -41,13 +56,13 @@ model Group {
 
 // Calendar Model
 model Calendar {
-  id Int @id @default(autoincrement())
-  year Int
-  month Int
-  data Json
+  id        Int      @id @default(autoincrement())
+  year      Int
+  month     Int
+  data      Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
 }

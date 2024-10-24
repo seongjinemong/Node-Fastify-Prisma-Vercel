@@ -14,9 +14,12 @@ importers:
       '@fastify/cors':
         specifier: ^10.0.1
         version: 10.0.1
-      '@fastify/session':
-        specifier: ^11.0.1
-        version: 11.0.1
+      '@mgcrea/fastify-session':
+        specifier: ^2.4.1
+        version: 2.4.1
+      '@mgcrea/fastify-session-prisma-store':
+        specifier: ^1.3.0
+        version: 1.3.0(@prisma/client@5.21.1(prisma@5.21.1))
       '@prisma/client':
         specifier: 5.21.1
         version: 5.21.1(prisma@5.21.1)
@@ -29,22 +32,13 @@ importers:
       google-auth-library:
         specifier: ^9.14.2
         version: 9.14.2
-      random-words:
-        specifier: ^2.0.1
-        version: 2.0.1
     devDependencies:
-      '@types/node':
-        specifier: ^22.7.9
-        version: 22.7.9
       prisma:
         specifier: ^5.21.1
         version: 5.21.1
       tsx:
         specifier: ^4.19.1
         version: 4.19.1
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
 packages:
 
@@ -210,8 +204,15 @@ packages:
   '@fastify/merge-json-schemas@0.1.1':
     resolution: {integrity: sha512-fERDVz7topgNjtXsJTTW1JKLy0rhuLRcquYqNR9rF7OcVpCa2OVW49ZPDIhaRRCaUuvVxI+N416xUoF76HNSXA==}
 
-  '@fastify/session@11.0.1':
-    resolution: {integrity: sha512-I/CRrC6vWktZor9aF5eG9HZh/hxQQ4HY8GntIpeSjl97Q3ly0KnqD+BBGGNtRWOK369tclvL8FEQx3pWTgzSHQ==}
+  '@mgcrea/fastify-session-prisma-store@1.3.0':
+    resolution: {integrity: sha512-IIBxdVNuEIqJQzCiPuokaZaZ7ExjAIGJbsqlAUxIy0YJWB+zPymC6ub9KuG/Gt1WB88atAKqYDYCq3o+WQLd8Q==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@prisma/client': '>=3'
+
+  '@mgcrea/fastify-session@2.4.1':
+    resolution: {integrity: sha512-lBlCHW4hpPbI+sbUWspGdze1IwUAfXc5nIYrVTS701MlAM/rrfuYp/IKLGbWORct5umxWAjTSQH4pVEOeaPtrA==}
+    engines: {node: '>=14'}
 
   '@prisma/client@5.21.1':
     resolution: {integrity: sha512-3n+GgbAZYjaS/k0M03yQsQfR1APbr411r74foknnsGpmhNKBG49VuUkxIU6jORgvJPChoD4WC4PqoHImN1FP0w==}
@@ -236,9 +237,6 @@ packages:
 
   '@prisma/get-platform@5.21.1':
     resolution: {integrity: sha512-sRxjL3Igst3ct+e8ya/x//cDXmpLbZQ5vfps2N4tWl4VGKQAmym77C/IG/psSMsQKszc8uFC/q1dgmKFLUgXZQ==}
-
-  '@types/node@22.7.9':
-    resolution: {integrity: sha512-jrTfRC7FM6nChvU7X2KqcrgquofrWLFDeYC1hKfwNWomVvrn7JIksqf344WN2X/y8xrgqBd2dJATZV4GbatBfg==}
 
   abstract-logging@2.0.1:
     resolution: {integrity: sha512-2BjRTZxTPvheOvGbBslFSYOUkr+SjPtOnrLP33f+VIWLzezQpZcqVg7ja3L4dBXmzzgwT+a029jRx5PCi3JuiA==}
@@ -324,9 +322,6 @@ packages:
   fast-uri@3.0.3:
     resolution: {integrity: sha512-aLrHthzCjH5He4Z2H9YZ+v6Ujb9ocRuW6ZzkJQOrTxleEijANq4v1TsaPaVG1PZcuurEzrLcWRyYBYXD5cEiaw==}
 
-  fastify-plugin@4.5.1:
-    resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
-
   fastify-plugin@5.0.1:
     resolution: {integrity: sha512-HCxs+YnRaWzCl+cWRYFnHmeRFyR5GVnJTAaCJQiYzQSDwK9MgJdyAsuL3nh0EWRCYMgQ5MeziymvmAhUHYHDUQ==}
 
@@ -404,6 +399,11 @@ packages:
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
+  nanoid@4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -449,9 +449,6 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
-  random-words@2.0.1:
-    resolution: {integrity: sha512-nZNJAmgcFmtJMTDDIUCm/iK4R6RydC6NvALvWhYItXQrgYGk1F7Gww416LpVROFQtfVd5TaLEf4WuSsko03N7w==}
-
   real-require@0.2.0:
     resolution: {integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==}
     engines: {node: '>= 12.13.0'}
@@ -487,9 +484,6 @@ packages:
   secure-json-parse@2.7.0:
     resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
 
-  seedrandom@3.0.5:
-    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
-
   semver@7.6.3:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
     engines: {node: '>=10'}
@@ -519,14 +513,6 @@ packages:
     resolution: {integrity: sha512-0flMz1lh74BR4wOvBjuh9olbnwqCPc35OOlfyzHba0Dc+QNUeWX/Gq2YTbnwcWPO3BMd8fkzRVrHcsR+a7z7rA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
-
-  typescript@5.6.3:
-    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
-  undici-types@6.19.8:
-    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
@@ -641,10 +627,17 @@ snapshots:
     dependencies:
       fast-deep-equal: 3.1.3
 
-  '@fastify/session@11.0.1':
+  '@mgcrea/fastify-session-prisma-store@1.3.0(@prisma/client@5.21.1(prisma@5.21.1))':
     dependencies:
-      fastify-plugin: 4.5.1
-      safe-stable-stringify: 2.4.3
+      '@prisma/client': 5.21.1(prisma@5.21.1)
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+
+  '@mgcrea/fastify-session@2.4.1':
+    dependencies:
+      fastify-plugin: 5.0.1
+      nanoid: 4.0.2
 
   '@prisma/client@5.21.1(prisma@5.21.1)':
     optionalDependencies:
@@ -670,10 +663,6 @@ snapshots:
   '@prisma/get-platform@5.21.1':
     dependencies:
       '@prisma/debug': 5.21.1
-
-  '@types/node@22.7.9':
-    dependencies:
-      undici-types: 6.19.8
 
   abstract-logging@2.0.1: {}
 
@@ -771,8 +760,6 @@ snapshots:
   fast-uri@2.3.0: {}
 
   fast-uri@3.0.3: {}
-
-  fastify-plugin@4.5.1: {}
 
   fastify-plugin@5.0.1: {}
 
@@ -896,6 +883,8 @@ snapshots:
 
   ms@2.1.2: {}
 
+  nanoid@4.0.2: {}
+
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
@@ -941,10 +930,6 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
-  random-words@2.0.1:
-    dependencies:
-      seedrandom: 3.0.5
-
   real-require@0.2.0: {}
 
   require-from-string@2.0.2: {}
@@ -966,8 +951,6 @@ snapshots:
   safe-stable-stringify@2.4.3: {}
 
   secure-json-parse@2.7.0: {}
-
-  seedrandom@3.0.5: {}
 
   semver@7.6.3: {}
 
@@ -993,10 +976,6 @@ snapshots:
       get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
-
-  typescript@5.6.3: {}
-
-  undici-types@6.19.8: {}
 
   uri-js@4.4.1:
     dependencies:

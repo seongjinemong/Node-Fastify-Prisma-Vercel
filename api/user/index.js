@@ -1,8 +1,6 @@
-import { generate, count } from "random-words";
-import { PrismaClient, Prisma } from "@prisma/client";
+import prisma from "../lib/db.js";
 import { OAuth2Client } from "google-auth-library";
 
-const prisma = new PrismaClient();
 const client = new OAuth2Client();
 
 export default async function (app) {
@@ -12,44 +10,55 @@ export default async function (app) {
 
   // * Login
   app.post("/login", async (req, res) => {
-    const { credential, client_id } = req.body;
+    const { credential, clientId } = req.body;
 
+    let ticket;
     try {
       // verify id token
-      const ticket = await client.verifyIdToken({
+      ticket = await client.verifyIdToken({
         idToken: credential,
-        audience: client_id,
+        audience: clientId,
       });
-
-      // make session authenticated
-      req.session.authenticated = true;
-
-      // get user from database
-      let user = await prisma.user.findFirst({
-        where: {
-          email: ticket.getPayload().email,
-        },
-      });
-
-      // Add user.email to session
-      req.session.user = user.email;
-
-      // if user is not in database, create user
-      if (!user) {
-        user = await prisma.user.create({
-          data: {
-            email: ticket.getPayload().email,
-          },
-        });
-      }
-
-      // return user
-      return res.status(200).type("json").send(user);
     } catch (error) {
       return res.status(401).type("json").send("Unauthorized");
     }
-  });
 
+    // make session authenticated
+    req.session.authenticated = true;
+
+    // find user
+    let user;
+    try {
+      console.log("Attempting to find user...");
+      user = await prisma.user.findFirst({
+        where: { email: ticket.getPayload().email },
+      });
+      console.log("User found:", user);
+    } catch (error) {
+      console.error("Error finding user:", error);
+      return res.status(500).type("json").send("Internal Server Error");
+    }
+
+    // if not found, create user
+    if (!user) {
+      try {
+        console.log("Creating new user...");
+        user = await prisma.user.create({
+          data: { email: ticket.getPayload().email },
+        });
+        console.log("New user created:", user);
+      } catch (error) {
+        console.error("Error creating user:", error);
+        return res.status(500).type("json").send("Internal Server Error");
+      }
+    }
+
+    // Add user.email to session
+    req.session.user = user.email;
+
+    // return user
+    return res.status(200).type("json").send(user);
+  });
   // * Logout
   app.get("/logout", async (req, res) => {
     req.session.destroy();
@@ -63,16 +72,20 @@ export default async function (app) {
       return res.status(401).type("json").send("Unauthorized");
     }
 
-    // Get user profile
-    const user = await prisma.user.findFirst({
-      where: {
-        email: req.session.user,
-      },
-    });
+    let user;
 
-    // Check if user is registered
-    if (!user) {
-      return res.status(401).type("json").send("Not registered, please let me know");
+    try {
+      // Get user profile
+      user = await prisma.user.findFirst({
+        where: {
+          email: req.session.user,
+        },
+      });
+    } catch (error) {
+      return res
+        .status(401)
+        .type("json")
+        .send("Not registered, please let me know");
     }
 
     // return user profile

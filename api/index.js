@@ -7,10 +7,22 @@ const app = Fastify({
 // * Add plugins for request or response
 //app.register(import("./plugins/greeting.js"));
 
+// * Add plugins for cookie
+app.register(import("@fastify/cookie"));
+
+// * Add plugins for session
+app.register(import("@fastify/session"), {
+  secret: "ithinkthatforifisthebestclubinhyuorisit?",
+  cookieName: "sessionId",
+  cookie: {
+    secure: false,
+  },
+});
+
 app.get("/", (req, res) => {
   return res
     .status(200)
-    .send("TimeTable API with Vercel, Fastify, and Seongjinemong ><");
+    .send("TimeTable API with Vercel, Fastify by Seongjinemong ><");
 });
 
 app.register(import("./user/index.js"), { prefix: "/user" });

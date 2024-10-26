@@ -53,6 +53,9 @@ app.get("/", (req, res) => {
 });
 
 app.register(import("./user/index.js"), { prefix: "/user" });
+app.register(import("./friend/index.js"), { prefix: "/friend" });
+app.register(import("./timetable/index.js"), { prefix: "/timetable" });
+app.register(import("./group/index.js"), { prefix: "/group" });
 
 export default async function handler(req, res) {
   // Explicitly type parameters

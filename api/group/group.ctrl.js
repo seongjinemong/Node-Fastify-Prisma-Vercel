@@ -72,7 +72,7 @@ async function newGroup(req, res) {
   }
 }
 
-// * Add a friend
+// * Add friend to group
 async function addFriendtoGroupwithId(req, res) {
   const { user, authenticated } = req.session;
 
@@ -113,7 +113,7 @@ async function addFriendtoGroupwithId(req, res) {
   }
 }
 
-// * Delete a friend
+// * Remove friend from group
 async function removeFriendfromGroupwithId(req, res) {
   const { user, authenticated } = req.session;
 

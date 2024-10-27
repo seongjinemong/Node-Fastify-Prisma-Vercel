@@ -70,7 +70,7 @@ async function updateTimetable(req, res) {
   } else {
     try {
       calendar = await prisma.calendar.update({
-        where: { id: calendar.id },
+        where: { id: calendar[0].id },
         data: { data: timetable },
       });
     } catch (error) {

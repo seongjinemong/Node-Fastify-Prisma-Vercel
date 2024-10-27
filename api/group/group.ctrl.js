@@ -35,6 +35,10 @@ async function getGroupwithId(req, res) {
       include: { members: { select: { id: true, email: true } } },
     });
 
+    if (!group.members.some((member) => member.email === user)) {
+      return res.status(401).type("json").send("You are not in this group");
+    }
+
     return res.status(200).type("json").send(group);
   } catch (error) {
     return res.status(500).type("json").send(`No group found`);

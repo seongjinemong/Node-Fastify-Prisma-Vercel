@@ -78,7 +78,7 @@ async function updateTimetable(req, res) {
     }
   }
 
-  return res.status(200).type("json").send(calendar.data);
+  return res.status(200).type("json").send(calendar);
 }
 
 // * Get timetable of user

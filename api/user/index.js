@@ -1,4 +1,4 @@
-import { login, logout, profile, setSummary, deleteUser } from "./user.ctrl.js";
+import { login, logout, profile, profilewithId, setSummary, deleteUser } from "./user.ctrl.js";
 
 export default async function (app) {
   app.get("/", async (req, res) => {
@@ -13,6 +13,9 @@ export default async function (app) {
 
   // * Profile
   app.get("/profile", profile);
+
+  // * Profile with id
+  app.get("/profile/:id", profilewithId);
 
   // * setSummary
   app.post("/summary", setSummary);

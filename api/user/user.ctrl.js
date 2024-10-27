@@ -108,6 +108,44 @@ async function profile(req, res) {
   return res.status(200).type("json").send(user);
 }
 
+async function profilewithId(req, res) {
+  // Check if user is authenticated
+  if (!req.session.authenticated) {
+    return res.status(401).type("json").send("Unauthorized");
+  }
+
+  const { user: user_email } = req.session;
+
+  const { id } = req.params;
+
+  let user;
+
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: user_email },
+      include: { friends: { select: { id: true, email: true } } },
+    });
+  } catch (error) {
+    return res.status(500).type("json").send("Can't get user data");
+  }
+
+  // check if id is in friends
+  if (!user.friends.some((friend) => friend.id === parseInt(id))) {
+    return res.status(401).type("json").send("You are not friend if this user");
+  }
+
+  let friend;
+  try {
+    friend = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+    });
+  } catch (error) {
+    return res.status(500).type("json").send("Can't get friend data");
+  }
+
+  return res.status(200).type("json").send(friend);
+}
+
 async function setSummary(req, res) {
   // Check if user is authenticated
   if (!req.session.authenticated) {
@@ -153,4 +191,4 @@ async function deleteUser(req, res) {
   return res.status(200).type("json").send("User deleted");
 }
 
-export { login, logout, profile, setSummary, deleteUser };
+export { login, logout, profile, profilewithId, setSummary, deleteUser };

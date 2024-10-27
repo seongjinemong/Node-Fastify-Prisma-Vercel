@@ -31,7 +31,22 @@ async function login(req, res) {
     //console.log("User found:", user);
   } catch (error) {
     //console.error("Error finding user:", error);
-    return res.status(500).type("json").send("Internal Server Error");
+    return res
+      .status(500)
+      .type("json")
+      .send("Internal Server Error while finding user");
+  }
+
+  if (user.active === false) {
+    // set user active to true
+    try {
+      await prisma.user.update({
+        where: { email: ticket.getPayload().email },
+        data: { active: true },
+      });
+    } catch (error) {
+      return res.status(500).type("json").send("Error reactivating user");
+    }
   }
 
   // if not found, create user
@@ -44,7 +59,10 @@ async function login(req, res) {
       //console.log("New user created:", user);
     } catch (error) {
       //console.error("Error creating user:", error);
-      return res.status(500).type("json").send("Internal Server Error");
+      return res
+        .status(500)
+        .type("json")
+        .send("Internal Server Error while creating user");
     }
   }
 
@@ -56,6 +74,10 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
+  if (!req.session.authenticated) {
+    return res.status(401).type("json").send("Not logged in");
+  }
+
   req.session.destroy();
   return res.status(200).type("json").send("Logged out");
 }
@@ -86,4 +108,49 @@ async function profile(req, res) {
   return res.status(200).type("json").send(user);
 }
 
-export { login, logout, profile };
+async function setSummary(req, res) {
+  // Check if user is authenticated
+  if (!req.session.authenticated) {
+    return res.status(401).type("json").send("Unauthorized");
+  }
+
+  const { summary } = req.body;
+
+  let user;
+  try {
+    user = await prisma.user.update({
+      where: { email: req.session.user },
+      data: { summary: summary },
+    });
+  } catch (error) {
+    return res.status(500).type("json").send("Internal Server Error");
+  }
+
+  return res.status(200).type("json").send(user);
+}
+
+async function deleteUser(req, res) {
+  // Check if user is authenticated
+  if (!req.session.authenticated) {
+    return res.status(401).type("json").send("Unauthorized");
+  }
+
+  // set user active to false
+  try {
+    await prisma.user.update({
+      where: { email: req.session.user },
+      data: { active: false },
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .type("json")
+      .send("Internal Server Error while deleting user");
+  }
+
+  req.session.destroy();
+
+  return res.status(200).type("json").send("User deleted");
+}
+
+export { login, logout, profile, setSummary, deleteUser };

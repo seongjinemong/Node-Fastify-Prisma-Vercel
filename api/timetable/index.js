@@ -1,7 +1,7 @@
 import {
   getTimetable,
   updateTimetable,
-  getTimetablewithId,
+  getTimetablewithUserId,
 } from "./timetable.ctrl.js";
 
 export default async function (app) {
@@ -12,5 +12,5 @@ export default async function (app) {
   app.post("/", updateTimetable);
 
   // * getTimetablewithId
-  app.get("/:id", getTimetablewithId);
+  app.get("/:id", getTimetablewithUserId);
 }

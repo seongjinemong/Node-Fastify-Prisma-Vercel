@@ -32,9 +32,10 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   summary   String?
-  groups    Group[]
+  groups    Group[] @relation("UserGroups")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
 
   friends User[] @relation("UserFriends")
   User    User[] @relation("UserFriends")
@@ -49,7 +50,7 @@ model Group {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  members User[]
+  members User[] @relation("UserGroups")
 }
 
 // Calendar Model

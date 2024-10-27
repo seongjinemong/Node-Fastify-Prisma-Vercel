@@ -18,11 +18,11 @@ export default async function (app) {
   app.post("/new", newGroup);
 
   // * addFriendtoGroupwithId
-  app.get("/:id/addfriend", addFriendtoGroupwithId);
+  app.post("/:id/addfriend", addFriendtoGroupwithId);
 
   // * removeFriendfromGroupwithId
-  app.get("/:id/removefriend", removeFriendfromGroupwithId);
+  app.post("/:id/removefriend", removeFriendfromGroupwithId);
 
   // * deleteGroupwithId
-  app.get("/:id/delete", deleteGroupwithId);
+  app.delete("/:id", deleteGroupwithId);
 }

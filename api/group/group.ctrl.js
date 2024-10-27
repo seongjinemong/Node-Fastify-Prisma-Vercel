@@ -104,7 +104,7 @@ async function addFriendtoGroupwithId(req, res) {
   try {
     const group = await prisma.group.update({
       where: { id: parseInt(id) },
-      data: { members: { connect: { id: parseInt(user_ids_parsed) } } },
+      data: { members: { connect: user_ids_parsed } },
     });
 
     return res.status(200).type("json").send(group);
@@ -145,7 +145,7 @@ async function removeFriendfromGroupwithId(req, res) {
   try {
     const group = await prisma.group.update({
       where: { id: parseInt(id) },
-      data: { members: { disconnect: { id: parseInt(user_ids_parsed) } } },
+      data: { members: { disconnect: user_ids_parsed } },
     });
 
     return res.status(200).type("json").send(group);

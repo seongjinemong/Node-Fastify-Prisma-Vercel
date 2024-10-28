@@ -1,6 +1,6 @@
-# Fastify + Vercel
+# Fastify + Prisma + Vercel
 
-This example shows how to use Fastify with Vercel Functions.
+This example shows how to use Fastify and Prisma with Vercel Functions.
 
 ## Demo
 

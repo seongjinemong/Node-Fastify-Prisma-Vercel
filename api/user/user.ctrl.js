@@ -37,7 +37,7 @@ async function login(req, res) {
     //   .send("Internal Server Error while finding user");
   }
 
-  if (user.active === false) {
+  if (user && user.active === false) {
     // set user active to true
     try {
       await prisma.user.update({

@@ -30,11 +30,11 @@ async function login(req, res) {
     });
     //console.log("User found:", user);
   } catch (error) {
-    //console.error("Error finding user:", error);
-    return res
-      .status(500)
-      .type("json")
-      .send("Internal Server Error while finding user");
+    console.error("No user found");
+    // return res
+    //   .status(500)
+    //   .type("json")
+    //   .send("Internal Server Error while finding user");
   }
 
   if (user.active === false) {

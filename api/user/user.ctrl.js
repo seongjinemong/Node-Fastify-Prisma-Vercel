@@ -45,6 +45,7 @@ async function login(req, res) {
         data: { active: true },
       });
     } catch (error) {
+      console.error("Error reactivating user");
       return res.status(500).type("json").send("Error reactivating user");
     }
   }
@@ -58,7 +59,7 @@ async function login(req, res) {
       });
       //console.log("New user created:", user);
     } catch (error) {
-      //console.error("Error creating user:", error);
+      console.error("Error creating user:", error);
       return res
         .status(500)
         .type("json")

@@ -88,7 +88,7 @@ async function profile(req, res) {
   //   return res.status(200).type("json").send(req.session.sessionId);
   // }
 
-  console.log(req.session.authenticated);
+  console.log(req.session);
 
   // Check if user is authenticated
   if (!req.session.authenticated) {

@@ -11,22 +11,18 @@ const app = Fastify({
 
 // * Add plugins for cors
 app.register(fasifyCors, {
-  // origin: (origin, callback) => {
-  //   if (
-  //     !origin ||
-  //     origin.startsWith("http://localhost") ||
-  //     origin.startsWith("http://127.0.0.1") ||
-  //     origin.startsWith("https://timetable.seongjinemong.app")
-  //   ) {
-  //     callback(null, true); // 모든 localhost 출처 허용
-  //   } else {
-  //     callback(new Error("Not allowed"), false); // 그 외 출처는 허용하지 않음
-  //   }
-  //
-  //   origin: true,
-  // },
-
-  origin: true,
+  origin: (origin, callback) => {
+    if (
+      !origin ||
+      origin.startsWith("http://localhost") ||
+      origin.startsWith("http://127.0.0.1") ||
+      origin.startsWith("https://timetable.seongjinemong.app")
+    ) {
+      callback(null, true); // 모든 localhost 출처 허용
+    } else {
+      callback(new Error("Not allowed"), false); // 그 외 출처는 허용하지 않음
+    }
+  },
   credentials: true, // Allow credentials
 });
 

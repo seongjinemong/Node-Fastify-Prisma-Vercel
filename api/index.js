@@ -39,7 +39,7 @@ app.register(fastifySession, {
     dbRecordIdFunction: undefined,
   }),
   secret: process.env.SESSION_SECRET,
-  cookieName: "sessionId",
+  cookieName: "session-id",
   saveUninitialized: false,
   cookie: {
     secure: false,

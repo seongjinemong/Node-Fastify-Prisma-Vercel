@@ -84,9 +84,9 @@ async function logout(req, res) {
 }
 
 async function profile(req, res) {
-  if (req.session.cookie) {
-    return res.status(200).type("json").send(req.session.cookie);
-  }
+  // if (req.session.cookie) {
+  //   return res.status(200).type("json").send(req.session.cookie);
+  // }
 
   // Check if user is authenticated
   if (!req.session.authenticated) {

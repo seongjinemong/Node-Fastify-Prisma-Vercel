@@ -48,6 +48,7 @@ app.register(fastifySession, {
   saveUninitialized: false,
   cookie: {
     secure: false,
+    httpOnly: true,
   },
 });
 

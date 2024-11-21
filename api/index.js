@@ -15,6 +15,7 @@ app.register(fasifyCors, {
     if (
       !origin ||
       origin.startsWith("http://localhost") ||
+      origin.startsWith("https://localhost") ||
       origin.startsWith("https://timetable.seongjinemong.app")
     ) {
       callback(null, true); // 모든 localhost 출처 허용

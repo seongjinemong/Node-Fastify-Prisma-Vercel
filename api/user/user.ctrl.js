@@ -15,7 +15,10 @@ async function login(req, res) {
       audience: clientId,
     });
   } catch (error) {
-    return res.status(401).type("json").send("Unauthorized");
+    return res
+      .status(401)
+      .type("json")
+      .send("Unauthorized, Invalid Credential");
   }
 
   // make session authenticated

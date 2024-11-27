@@ -1,11 +1,13 @@
 import prisma from "../lib/db.js";
 import { OAuth2Client } from "google-auth-library";
+import { jwtDecode } from "jwt-decode";
 
 const client = new OAuth2Client();
 
 // * Login
 async function login(req, res) {
   const { credential, clientId } = req.body;
+  const name = jwtDecode(credential).name;
 
   let ticket;
   try {
@@ -55,7 +57,7 @@ async function login(req, res) {
     try {
       //console.log("Creating new user...");
       user = await prisma.user.create({
-        data: { email: ticket.getPayload().email },
+        data: { email: ticket.getPayload().email, name: name },
       });
       //console.log("New user created:", user);
     } catch (error) {

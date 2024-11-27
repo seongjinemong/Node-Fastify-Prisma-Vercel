@@ -30,6 +30,7 @@ model Session {
 // User Model
 model User {
   id        Int      @id @default(autoincrement())
+  name      String?
   email     String   @unique
   summary   String?
   groups    Group[] @relation("UserGroups")

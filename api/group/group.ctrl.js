@@ -32,7 +32,7 @@ async function getGroupwithId(req, res) {
   try {
     const group = await prisma.group.findUnique({
       where: { id: parseInt(id) },
-      include: { members: { select: { id: true, email: true } } },
+      include: { members: { select: { id: true, email: true, name: true } } },
     });
 
     if (!group.members.some((member) => member.email === user)) {
